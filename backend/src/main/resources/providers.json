@@ -1,0 +1,221 @@
+[
+  {
+    "code": "MPESA",
+    "slug": "mpesa",
+    "name": "M-Pesa (Daraja)",
+    "company": "Safaricom",
+    "countries": ["Kenya"],
+    "category": "Mobile money",
+    "color": "#3DB54A",
+    "docsUrl": "https://developer.safaricom.co.ke",
+    "statusPageUrl": "https://developer.safaricom.co.ke",
+    "endpoints": [
+      {
+        "name": "M-Pesa OAuth access token",
+        "description": "Every Daraja call needs this token first. If it fails, STK Push and B2C fail too.",
+        "method": "GET",
+        "path": "/oauth/v1/generate?grant_type=client_credentials",
+        "liveUrl": "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
+        "headersHint": "Authorization: Basic <base64(consumer_key:consumer_secret)>",
+        "expectedStatus": 200,
+        "expectedFields": ["access_token", "expires_in"],
+        "sampleResponse": {"access_token": "c9SQxWWhmdVRlyh0zh8gZDTkubVF", "expires_in": "3599"}
+      },
+      {
+        "name": "M-Pesa STK Push (Lipa Na M-Pesa)",
+        "description": "Sends the payment prompt to the customer's phone.",
+        "method": "POST",
+        "path": "/mpesa/stkpush/v1/processrequest",
+        "liveUrl": "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
+        "headersHint": "Authorization: Bearer <access_token>\nContent-Type: application/json",
+        "body": "{\"BusinessShortCode\":\"174379\",\"TransactionType\":\"CustomerPayBillOnline\",\"Amount\":\"1\",\"PartyA\":\"254708374149\",\"PartyB\":\"174379\",\"PhoneNumber\":\"254708374149\",\"CallBackURL\":\"https://example.com/callback\",\"AccountReference\":\"KingaTest\",\"TransactionDesc\":\"Health check\"}",
+        "expectedStatus": 200,
+        "expectedFields": ["MerchantRequestID", "CheckoutRequestID", "ResponseCode"],
+        "sampleResponse": {
+          "MerchantRequestID": "29115-34620561-1",
+          "CheckoutRequestID": "ws_CO_191220191020363925",
+          "ResponseCode": "0",
+          "ResponseDescription": "Success. Request accepted for processing",
+          "CustomerMessage": "Success. Request accepted for processing"
+        }
+      }
+    ]
+  },
+  {
+    "code": "MTN_MOMO",
+    "slug": "mtn-momo",
+    "name": "MTN MoMo",
+    "company": "MTN Group",
+    "countries": ["Uganda", "Ghana", "Rwanda", "Cameroon", "Côte d'Ivoire", "Zambia"],
+    "category": "Mobile money",
+    "color": "#FFCB05",
+    "docsUrl": "https://momodeveloper.mtn.com",
+    "statusPageUrl": "https://momodeveloper.mtn.com",
+    "endpoints": [
+      {
+        "name": "MTN MoMo Collection token",
+        "description": "Gets the access token for the Collection API.",
+        "method": "POST",
+        "path": "/collection/token/",
+        "liveUrl": "https://sandbox.momodeveloper.mtn.com/collection/token/",
+        "headersHint": "Authorization: Basic <base64(api_user:api_key)>\nOcp-Apim-Subscription-Key: <subscription_key>",
+        "expectedStatus": 200,
+        "expectedFields": ["access_token", "token_type", "expires_in"],
+        "sampleResponse": {"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0", "token_type": "access_token", "expires_in": 3600}
+      },
+      {
+        "name": "MTN MoMo account balance",
+        "description": "Reads the collection account balance. A cheap call that proves the whole API is up.",
+        "method": "GET",
+        "path": "/collection/v1_0/account/balance",
+        "liveUrl": "https://sandbox.momodeveloper.mtn.com/collection/v1_0/account/balance",
+        "headersHint": "Authorization: Bearer <access_token>\nX-Target-Environment: sandbox\nOcp-Apim-Subscription-Key: <subscription_key>",
+        "expectedStatus": 200,
+        "expectedFields": ["availableBalance", "currency"],
+        "sampleResponse": {"availableBalance": "1500000", "currency": "EUR"}
+      }
+    ]
+  },
+  {
+    "code": "AIRTEL_MONEY",
+    "slug": "airtel-money",
+    "name": "Airtel Money",
+    "company": "Airtel Africa",
+    "countries": ["Kenya", "Uganda", "Tanzania", "Zambia", "Nigeria", "Malawi"],
+    "category": "Mobile money",
+    "color": "#E40000",
+    "docsUrl": "https://developers.airtel.africa",
+    "statusPageUrl": "https://developers.airtel.africa",
+    "endpoints": [
+      {
+        "name": "Airtel Money OAuth token",
+        "description": "Gets the bearer token used for collections and disbursements.",
+        "method": "POST",
+        "path": "/auth/oauth2/token",
+        "liveUrl": "https://openapiuat.airtel.africa/auth/oauth2/token",
+        "headersHint": "Content-Type: application/json",
+        "body": "{\"client_id\":\"<client_id>\",\"client_secret\":\"<client_secret>\",\"grant_type\":\"client_credentials\"}",
+        "expectedStatus": 200,
+        "expectedFields": ["access_token", "expires_in", "token_type"],
+        "sampleResponse": {"access_token": "Aqh2VI0Mms4MZ6sVNi5ryNY0XXiSg8PV", "expires_in": "180", "token_type": "bearer"}
+      }
+    ]
+  },
+  {
+    "code": "ORANGE_MONEY",
+    "slug": "orange-money",
+    "name": "Orange Money",
+    "company": "Orange",
+    "countries": ["Senegal", "Côte d'Ivoire", "Mali", "Cameroon", "Madagascar"],
+    "category": "Mobile money",
+    "color": "#FF7900",
+    "docsUrl": "https://developer.orange.com",
+    "statusPageUrl": "https://developer.orange.com",
+    "endpoints": [
+      {
+        "name": "Orange API OAuth token",
+        "description": "Gets the token for the Orange Money Web Payment API.",
+        "method": "POST",
+        "path": "/oauth/v3/token",
+        "liveUrl": "https://api.orange.com/oauth/v3/token",
+        "headersHint": "Authorization: Basic <authorization_header>\nContent-Type: application/x-www-form-urlencoded",
+        "body": "grant_type=client_credentials",
+        "expectedStatus": 200,
+        "expectedFields": ["token_type", "access_token", "expires_in"],
+        "sampleResponse": {"token_type": "Bearer", "access_token": "i6m2iIcY0SodWSe5", "expires_in": 3600}
+      }
+    ]
+  },
+  {
+    "code": "FLUTTERWAVE",
+    "slug": "flutterwave",
+    "name": "Flutterwave",
+    "company": "Flutterwave",
+    "countries": ["Nigeria", "Kenya", "Ghana", "South Africa", "Uganda", "Rwanda"],
+    "category": "Payment gateway",
+    "color": "#F5A623",
+    "docsUrl": "https://developer.flutterwave.com",
+    "statusPageUrl": "https://status.flutterwave.com",
+    "endpoints": [
+      {
+        "name": "Flutterwave bank list",
+        "description": "Lists banks in Nigeria. Read-only, safe to call every minute.",
+        "method": "GET",
+        "path": "/v3/banks/NG",
+        "liveUrl": "https://api.flutterwave.com/v3/banks/NG",
+        "headersHint": "Authorization: Bearer <secret_key>",
+        "expectedStatus": 200,
+        "expectedFields": ["status", "message", "data.0.code", "data.0.name"],
+        "sampleResponse": {
+          "status": "success",
+          "message": "Banks fetched successfully",
+          "data": [
+            {"id": 132, "code": "044", "name": "Access Bank"},
+            {"id": 133, "code": "058", "name": "Guaranty Trust Bank"}
+          ]
+        }
+      },
+      {
+        "name": "Flutterwave verify transaction",
+        "description": "Confirms a payment. If this breaks, orders get stuck as pending.",
+        "method": "GET",
+        "path": "/v3/transactions/{id}/verify",
+        "liveUrl": "https://api.flutterwave.com/v3/transactions/{id}/verify",
+        "headersHint": "Authorization: Bearer <secret_key>",
+        "expectedStatus": 200,
+        "expectedFields": ["status", "data.status", "data.amount", "data.currency"],
+        "sampleResponse": {
+          "status": "success",
+          "message": "Transaction fetched successfully",
+          "data": {"id": 288200108, "tx_ref": "kinga-health-check", "amount": 100, "currency": "NGN", "status": "successful"}
+        }
+      }
+    ]
+  },
+  {
+    "code": "PAYSTACK",
+    "slug": "paystack",
+    "name": "Paystack",
+    "company": "Paystack (Stripe)",
+    "countries": ["Nigeria", "Ghana", "Kenya", "South Africa", "Côte d'Ivoire"],
+    "category": "Payment gateway",
+    "color": "#00C3F7",
+    "docsUrl": "https://paystack.com/docs/api",
+    "statusPageUrl": "https://status.paystack.com",
+    "endpoints": [
+      {
+        "name": "Paystack bank list",
+        "description": "Lists supported banks. Read-only, safe to call every minute.",
+        "method": "GET",
+        "path": "/bank",
+        "liveUrl": "https://api.paystack.co/bank",
+        "headersHint": "Authorization: Bearer <secret_key>",
+        "expectedStatus": 200,
+        "expectedFields": ["status", "message", "data.0.name", "data.0.code"],
+        "sampleResponse": {
+          "status": true,
+          "message": "Banks retrieved",
+          "data": [
+            {"id": 1, "name": "Access Bank", "code": "044", "currency": "NGN"},
+            {"id": 9, "name": "Guaranty Trust Bank", "code": "058", "currency": "NGN"}
+          ]
+        }
+      },
+      {
+        "name": "Paystack verify transaction",
+        "description": "Confirms a payment by its reference.",
+        "method": "GET",
+        "path": "/transaction/verify/{reference}",
+        "liveUrl": "https://api.paystack.co/transaction/verify/{reference}",
+        "headersHint": "Authorization: Bearer <secret_key>",
+        "expectedStatus": 200,
+        "expectedFields": ["status", "data.status", "data.amount", "data.reference"],
+        "sampleResponse": {
+          "status": true,
+          "message": "Verification successful",
+          "data": {"id": 4099260516, "status": "success", "reference": "kinga-health-check", "amount": 40333, "currency": "NGN"}
+        }
+      }
+    ]
+  }
+]
