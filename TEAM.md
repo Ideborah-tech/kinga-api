@@ -1,16 +1,23 @@
 # Team split: who owns what
 
-Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community intelligence, demo and pitch). Full specs: [Sifa](docs/SIFA.md) · [Gisele](docs/GISELE.md). The code is complete and runs end to end. Each person owns one area: read it, understand it, be able to explain and demo it, and fix or polish it. In the pitch, each person presents their own part.
+Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community intelligence, demo and pitch). Full specs: [Deborah](docs/DEBORAH.md) · [Sifa](docs/SIFA.md) · [Gisele](docs/GISELE.md). The code is complete and runs end to end. Each person owns one area: read it, understand it, be able to explain and demo it, and fix or polish it. In the pitch, each person presents their own part.
 
 ## Task board
 
 ### ✅ Done
-- Project selected and description written
-- Repo created
-- Tech stack chosen: React + Spring Boot
-- Backend: monitoring engine, failure reports, community outage detection, mock providers, demo data
-- Frontend: dashboard, monitor page, failure report, add/edit monitor, templates, providers, demo control
-- Both demo stories (“it's them” and “it's you”) tested end to end
+| Task | Done by |
+|---|---|
+| Select the project and write the description | Team |
+| Create the GitHub repo (`Ideborah-tech/kinga-api`) | Deborah |
+| Choose the tech stack: React + Spring Boot, H2 database | Deborah |
+| Split the work into To do / In progress / Done and assign owners | Deborah |
+| Backend: every-minute checks, failure classification, Dependency Failure Report | Deborah |
+| Backend: community outage detection, mock providers, shared setups, demo data | Deborah |
+| Frontend: dashboard, monitor page, failure report, add/edit monitor, shared setups, providers, demo control | Deborah |
+| Design: “Aurora” look (glass panels, sunset gradient), new logo, top bar + phone dock, bento dashboard | Deborah |
+| Test both demo stories (“it's them” and “it's you”) and the schema-change story end to end | Deborah |
+| Test light mode, dark mode and phone width | Deborah |
+| Write README, TEAM.md and the specs for Sifa and Gisele; push everything to GitHub | Deborah |
 
 ### 🔄 In progress (everyone, now)
 - Each member pulls the repo, runs backend + frontend on their own laptop (see README) and reads their files below
