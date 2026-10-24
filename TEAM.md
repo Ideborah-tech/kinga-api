@@ -1,6 +1,6 @@
 # Team split: who owns what
 
-Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community intelligence, demo and pitch). The code is complete and runs end to end. Each person owns one area: read it, understand it, be able to explain and demo it, and fix or polish it. In the pitch, each person presents their own part.
+Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community intelligence, demo and pitch). Full specs: [Sifa](docs/SIFA.md) · [Gisele](docs/GISELE.md). The code is complete and runs end to end. Each person owns one area: read it, understand it, be able to explain and demo it, and fix or polish it. In the pitch, each person presents their own part.
 
 ## Task board
 
