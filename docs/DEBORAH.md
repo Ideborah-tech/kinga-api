@@ -79,7 +79,7 @@ backend/src/main/java/com/kinga/api/controller/DashboardController.java
 |---|---|---|
 | 1 | Read through `CheckerService`, `MonitoringService` and `ReportService` | You can explain sections 2 and 3 without notes |
 | 2 | Help Sifa and Gisele get the app running on their laptops | Both see the dashboard with 5 green monitors |
-| 3 | (Bonus) Write 3–5 unit tests for `CheckerService` and `ReportService` | `mvn test` passes |
+| 3 | ✅ (Bonus) Write 3–5 unit tests for `CheckerService` and `ReportService` | `mvn test` passes: 19 tests in `backend/src/test/java/com/kinga/api/service/` |
 | 4 | Final run-through together, then submit | Project submitted before the deadline |
 
 ## 6. Your part of the pitch (about 40 seconds)

@@ -18,6 +18,7 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Test both demo stories (“it's them” and “it's you”) and the schema-change story end to end | Deborah |
 | Test light mode, dark mode and phone width | Deborah |
 | Write README, TEAM.md and the specs for Sifa and Gisele; push everything to GitHub | Deborah |
+| Unit tests for `CheckerService` (14) and `ReportService` (5); `mvn test` passes | Deborah |
 
 ### 🔄 In progress (everyone, now)
 - Each member pulls the repo, runs backend + frontend on their own laptop (see README) and reads their files below
@@ -26,7 +27,6 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Task | Owner |
 |---|---|
 | Walk through the backend code; be ready to explain the scheduler and the failure classification | Deborah |
-| Write 3–5 unit tests for `CheckerService` and `ReportService` (optional bonus) | Deborah |
 | Click through every page on laptop and phone width; fix any layout issue | Sifa |
 | Take screenshots of the dashboard, failure report and banner for the README / slides | Sifa |
 | Rehearse the demo script on the Demo control page 3 times | Gisele |
