@@ -7,7 +7,7 @@
 
 ## 1. Your part in one paragraph
 
-One developer on their own can't tell whether M-Pesa is down or their own code is broken. KingaAPI can, because many developers monitor the same providers. When **many of them fail at the same moment**, KingaAPI opens a **provider incident** and tells every affected developer: *it's them, not you*. You also own the list of providers (M-Pesa, MTN MoMo, Airtel Money, Orange Money, Flutterwave, Paystack), the **shared monitoring setups**, the **fake provider APIs** that can be broken on cue, and the **demo data**.
+One developer on their own can't tell whether M-Pesa is down or their own code is broken. KingaAPI can, because many developers monitor the same providers. When **many of them fail at the same moment**, KingaAPI opens a **provider incident** and tells every affected developer: *it's them, not you*. You also own the list of providers (M-Pesa, MTN MoMo, Airtel Money, Orange Money, Flutterwave, Paystack, Wave), the **shared monitoring setups**, the **fake provider APIs** that can be broken on cue, and the **demo data**.
 
 ## 2. Run it
 
@@ -62,7 +62,7 @@ The failure report then gives the verdict (Deborah's `ReportService` uses your d
 | `mock/MockProviderController.java` | **Fake provider APIs** at `/mock/{provider}/...`. When healthy, it answers with the sample response from `providers.json`. |
 | `mock/MockMode.java`, `mock/MockState.java` | The failure modes and the current mode of each provider |
 | `mock/DemoController.java` | Demo buttons: set a provider's mode, break one developer's key, reset everything |
-| `seed/DemoDataSeeder.java` | Fills the database at startup: 10 developers, 26 monitors, shared setups, 24 h of history and one past MTN MoMo outage |
+| `seed/DemoDataSeeder.java` | Fills the database at startup: 10 developers, 29 monitors, shared setups, 24 h of history and one past MTN MoMo outage |
 | `controller/ProviderController.java` | `/api/providers`, `/api/incidents` |
 | `controller/TemplateController.java` | `/api/templates` (shared setups) |
 | `frontend/src/pages/Providers.jsx` | Provider status cards and incident history |
@@ -97,8 +97,8 @@ Real sandbox keys for M-Pesa or MoMo take days to get, and a live demo needs fai
 | kwame-accra | MTN MoMo, Paystack, Flutterwave |
 | chidi-lagos | Paystack ×2, Flutterwave |
 | grace-kampala | MTN MoMo ×2, Airtel Money |
-| awa-abidjan | Orange Money, MTN MoMo |
-| moussa-dakar, fatou-bamako | Orange Money |
+| awa-abidjan | Orange Money, MTN MoMo, Wave |
+| moussa-dakar, fatou-bamako | Orange Money, Wave |
 | zanele-joburg | Paystack, M-Pesa |
 
 History: one check every 10 minutes for the last 24 h, a few random timeouts, an **MTN MoMo outage 6 hours ago (40 minutes, all MTN monitors)**, and **Paystack slowness 14 hours ago**.
@@ -125,12 +125,21 @@ Backup: if the Wi-Fi or a laptop fails, play the recorded video (task 4 below). 
 
 | # | Task | Done when |
 |---|---|---|
-| 1 | Pull the repo and run backend + frontend | Demo control page shows all 6 providers |
+| 1 | ✅ Pull the repo and run backend + frontend | Demo control page shows all 6 providers |
 | 2 | Rehearse the demo script (section 7) **3 times** with a timer | Under 2 minutes, without reading |
-| 3 | Build the **pitch slides** (section 9) using Sifa's screenshots | 6–8 slides |
-| 4 | Record a **backup video** of the demo (Windows: Win + G, or OBS) | 2-minute MP4 saved on 2 laptops and a USB stick |
-| 5 | Check the README "Run it" steps on a clean laptop | Someone else can start the app from the README alone |
-| 6 | (Bonus) Add another provider to `providers.json` (e.g. Chipper Cash or Wave) | It shows on Providers, Shared setups and Demo after a restart |
+| 3 | ✅ Build the **pitch slides** (section 9) using Sifa's screenshots | 6–8 slides: 8 slides with speaker notes in [`docs/pitch/KingaAPI-pitch.pptx`](pitch/KingaAPI-pitch.pptx) |
+| 4 | Record a **backup video** of the demo (Windows: Win + G, or OBS) | 2-minute MP4 saved on 2 laptops and a USB stick: recorded with captions in [`docs/demo/kinga-demo-backup.mp4`](demo/kinga-demo-backup.mp4); still copy it to 2 laptops and a USB stick |
+| 5 | ✅ Check the README "Run it" steps on a clean laptop | Someone else can start the app from the README alone |
+| 6 | ✅ (Bonus) Add another provider to `providers.json` (e.g. Chipper Cash or Wave) | It shows on Providers, Shared setups and Demo after a restart |
+
+### What was done
+
+- **Run it (task 1):** Demo control shows all 7 providers.
+- **Slides (task 3):** 8 slides following section 9. Each slide names who presents it and for how long; the speaker notes hold each person's script.
+- **Backup video (task 4):** the section 7 script recorded at 1280×720, with captions of what to say, 2:01 long. Still to do by hand: copy it to 2 laptops and a USB stick.
+- **README check (task 5):** followed the README in a fresh clone. It worked, but step 2 said `cd frontend` right after `cd backend`, which fails in the same terminal. The README now adds the clone step, says to use a second terminal from the project folder, and says what you should see.
+- **Wave (task 6):** added to `providers.json` (wallet balance and checkout session endpoints, real `api.wave.com` sandbox URLs) and given demo monitors for moussa-dakar, fatou-bamako and awa-abidjan, so it shows as Operational with 3 monitors from 3 developers. The demo numbers for M-Pesa (6 of 6 from 4 developers) and MTN MoMo are unchanged.
+- **Still yours to do:** task 2, rehearse the demo 3 times with a timer.
 
 To add a provider, copy one block in `providers.json` and change `code` (UPPER_CASE), `slug` (lower-case, used in the mock URL), `name`, `countries`, `color`, links and endpoints. No Java change is needed. Restart the backend.
 

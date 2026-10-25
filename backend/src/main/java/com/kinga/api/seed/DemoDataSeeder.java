@@ -44,15 +44,15 @@ public class DemoDataSeeder implements CommandLineRunner {
             "kwame-accra", List.of("MTN_MOMO:1", "PAYSTACK:0", "FLUTTERWAVE:0"),
             "chidi-lagos", List.of("PAYSTACK:0", "PAYSTACK:1", "FLUTTERWAVE:1"),
             "grace-kampala", List.of("MTN_MOMO:0", "MTN_MOMO:1", "AIRTEL_MONEY:0"),
-            "awa-abidjan", List.of("ORANGE_MONEY:0", "MTN_MOMO:1"),
-            "moussa-dakar", List.of("ORANGE_MONEY:0"),
-            "fatou-bamako", List.of("ORANGE_MONEY:0"),
+            "awa-abidjan", List.of("ORANGE_MONEY:0", "MTN_MOMO:1", "WAVE:1"),
+            "moussa-dakar", List.of("ORANGE_MONEY:0", "WAVE:0"),
+            "fatou-bamako", List.of("ORANGE_MONEY:0", "WAVE:0"),
             "zanele-joburg", List.of("PAYSTACK:0", "MPESA:0")
     );
 
     private static final Map<String, Integer> BASE_LATENCY = Map.of(
             "MPESA", 420, "MTN_MOMO", 610, "AIRTEL_MONEY", 540,
-            "ORANGE_MONEY", 680, "FLUTTERWAVE", 310, "PAYSTACK", 260);
+            "ORANGE_MONEY", 680, "FLUTTERWAVE", 310, "PAYSTACK", 260, "WAVE", 350);
 
     private final ProviderCatalog catalog;
     private final MonitorRepository monitors;
