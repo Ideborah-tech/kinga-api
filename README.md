@@ -40,6 +40,8 @@ If `java -version` shows 1.8, point Maven at a newer JDK first. In PowerShell:
 $env:JAVA_HOME="C:\Program Files\Java\jdk-22"
 ```
 
+Run the backend unit tests (failure classification and the Dependency Failure Report) with `mvn test` from `backend/`.
+
 On start, the backend seeds 10 developers, 26 monitors, 24 hours of check history and one past MTN MoMo outage. The H2 console is at http://localhost:8085/h2-console (JDBC URL `jdbc:h2:mem:kinga`, user `sa`, no password).
 
 ### 2. Frontend: http://localhost:5173
