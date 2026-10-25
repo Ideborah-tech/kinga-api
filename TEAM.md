@@ -19,6 +19,8 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Test light mode, dark mode and phone width | Deborah |
 | Write README, TEAM.md and the specs for Sifa and Gisele; push everything to GitHub | Deborah |
 | Unit tests for `CheckerService` (14) and `ReportService` (5); `mvn test` passes | Deborah |
+| Click through every page on laptop and phone width, light and dark; fix layout issues (Community pulse names on phone, outage banner on phone, router console warnings) | Sifa |
+| Screenshots of the dashboard, outage banner, failure reports and phone views in [`docs/screenshots/`](docs/screenshots/) | Sifa |
 
 ### 🔄 In progress (everyone, now)
 - Each member pulls the repo, runs backend + frontend on their own laptop (see README) and reads their files below
@@ -27,8 +29,6 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Task | Owner |
 |---|---|
 | Walk through the backend code; be ready to explain the scheduler and the failure classification | Deborah |
-| Click through every page on laptop and phone width; fix any layout issue | Sifa |
-| Take screenshots of the dashboard, failure report and banner for the README / slides | Sifa |
 | Rehearse the demo script on the Demo control page 3 times | Gisele |
 | Build the pitch slides: problem → solution → live demo → impact → next steps | Gisele |
 | Record a 2-minute backup demo video in case the live demo fails | Gisele |
