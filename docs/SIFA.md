@@ -79,14 +79,21 @@ The backend builds all the content (`GET /api/monitors/{id}/report`). Your job i
 
 | # | Task | Done when |
 |---|---|---|
-| 1 | Pull the repo and run backend + frontend | The dashboard shows 5 green monitors for `you` |
-| 2 | Click through **every page**: Dashboard, a monitor, its report, Add monitor, Edit, Shared setups, Providers, Demo | No page shows an error; every button does something |
-| 3 | Check **phone width**: in Chrome, press F12, then the phone icon, then pick "iPhone 12" | Nothing spills off the side; the bottom dock works |
-| 4 | Check **light and dark mode**: in Chrome DevTools, open Rendering, then "Emulate prefers-color-scheme" | Text is readable in both |
-| 5 | Run the outage: on Demo, set M-Pesa to **503 error**, then go to the Dashboard | Purple banner appears within ~5 s; the M-Pesa cards turn red with a "Report →" tag |
-| 6 | Open the report from the banner | Verdict says "It's them, not you." |
-| 7 | Take **screenshots** for the slides: dashboard (normal), dashboard with banner, failure report, phone view | 4–5 clear PNGs sent to Gisele |
+| 1 | ✅ Pull the repo and run backend + frontend | The dashboard shows 5 green monitors for `you` |
+| 2 | ✅ Click through **every page**: Dashboard, a monitor, its report, Add monitor, Edit, Shared setups, Providers, Demo | No page shows an error; every button does something |
+| 3 | ✅ Check **phone width**: in Chrome, press F12, then the phone icon, then pick "iPhone 12" | Nothing spills off the side; the bottom dock works |
+| 4 | ✅ Check **light and dark mode**: in Chrome DevTools, open Rendering, then "Emulate prefers-color-scheme" | Text is readable in both |
+| 5 | ✅ Run the outage: on Demo, set M-Pesa to **503 error**, then go to the Dashboard | Purple banner appears within ~5 s; the M-Pesa cards turn red with a "Report →" tag |
+| 6 | ✅ Open the report from the banner | Verdict says "It's them, not you." |
+| 7 | ✅ Take **screenshots** for the slides: dashboard (normal), dashboard with banner, failure report, phone view | 4–5 clear PNGs sent to Gisele: 6 PNGs in [`docs/screenshots/`](screenshots/) |
 | 8 | (Bonus) Polish: spacing, wording, empty states | Your call, but keep commits small |
+
+### What the check found and fixed
+
+- **Community pulse on phones:** long names were cut off ("M-Pesa (Daraja") and the coloured dots were squashed into lines. The name now has its own span that can truncate, the dot no longer shrinks, and the bar is narrower on phones (`Status.jsx`, `styles.css`).
+- **Outage banner on phones:** the "!" icon took a whole column and squeezed the text. It now stacks above the text, like the verdict card (`styles.css`).
+- **Console warnings:** React Router printed two v7 "future flag" warnings on every page. Opted in to both flags (`main.jsx`).
+- Everything else passed on desktop and iPhone 12, light and dark: no sideways scroll, no error boxes, and every button works (Check now, Share, Edit/Save, Add, Delete, Copy report, Refresh, the phone dock and the demo controls). The "it's them" banner appeared within a second of setting M-Pesa to 503.
 
 ## 7. Your part of the pitch (about 40 seconds)
 

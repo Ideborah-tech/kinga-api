@@ -27,7 +27,7 @@ export function ProviderTag({ code, name, color }) {
   return (
     <span className="provider-tag" title={code}>
       <span className="provider-swatch" style={{ background: color || 'var(--muted)' }} />
-      {name || code}
+      <span className="provider-name">{name || code}</span>
     </span>
   );
 }
