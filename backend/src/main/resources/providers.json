@@ -217,5 +217,47 @@
         }
       }
     ]
+  },
+  {
+    "code": "WAVE",
+    "slug": "wave",
+    "name": "Wave",
+    "company": "Wave Mobile Money",
+    "countries": ["Senegal", "Côte d'Ivoire", "Mali", "Burkina Faso", "The Gambia", "Uganda"],
+    "category": "Mobile money",
+    "color": "#2F6BFF",
+    "docsUrl": "https://docs.wave.com",
+    "statusPageUrl": "https://docs.wave.com",
+    "endpoints": [
+      {
+        "name": "Wave wallet balance",
+        "description": "Reads your business wallet balance. Read-only, safe to call every minute.",
+        "method": "GET",
+        "path": "/v1/balance",
+        "liveUrl": "https://api.wave.com/v1/balance",
+        "headersHint": "Authorization: Bearer <api_key>",
+        "expectedStatus": 200,
+        "expectedFields": ["amount", "currency"],
+        "sampleResponse": {"amount": "1250000", "currency": "XOF"}
+      },
+      {
+        "name": "Wave checkout session",
+        "description": "Looks up a checkout session to confirm whether the customer paid.",
+        "method": "GET",
+        "path": "/v1/checkout/sessions/{id}",
+        "liveUrl": "https://api.wave.com/v1/checkout/sessions/{id}",
+        "headersHint": "Authorization: Bearer <api_key>",
+        "expectedStatus": 200,
+        "expectedFields": ["id", "amount", "currency", "checkout_status", "payment_status"],
+        "sampleResponse": {
+          "id": "cos-kinga-health-check",
+          "amount": "5000",
+          "currency": "XOF",
+          "checkout_status": "complete",
+          "payment_status": "succeeded",
+          "client_reference": "kinga-health-check"
+        }
+      }
+    ]
   }
 ]

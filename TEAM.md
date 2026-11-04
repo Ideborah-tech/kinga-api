@@ -19,6 +19,13 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Test both demo stories (“it's them” and “it's you”) and the schema-change story end to end | Deborah |
 | Test light mode, dark mode and phone width | Deborah |
 | Write README, TEAM.md and the specs for Sifa and Gisele; push everything to GitHub | Deborah |
+| Unit tests for `CheckerService` (14) and `ReportService` (5); `mvn test` passes | Deborah |
+| Click through every page on laptop and phone width, light and dark; fix layout issues (Community pulse names on phone, outage banner on phone, router console warnings) | Sifa |
+| Screenshots of the dashboard, outage banner, failure reports and phone views in [`docs/screenshots/`](docs/screenshots/) | Sifa |
+| Pitch slides (8 slides, speaker notes) in [`docs/pitch/`](docs/pitch/) | Gisele |
+| 2-minute captioned backup demo video in [`docs/demo/`](docs/demo/) | Gisele |
+| Checked the README run steps on a fresh clone; clarified the clone step and the second terminal | Gisele |
+| Added Wave (Senegal, Côte d'Ivoire, Mali…) as a 7th provider with demo monitors | Gisele |
 
 ### 🔄 In progress (everyone, now)
 - Each member pulls the repo, runs backend + frontend on their own laptop (see README) and reads their files below
@@ -27,12 +34,8 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Task | Owner |
 |---|---|
 | Walk through the backend code; be ready to explain the scheduler and the failure classification | Deborah |
-| Write 3–5 unit tests for `CheckerService` and `ReportService` (optional bonus) | Deborah |
-| Click through every page on laptop and phone width; fix any layout issue | Sifa |
-| Take screenshots of the dashboard, failure report and banner for the README / slides | Sifa |
 | Rehearse the demo script on the Demo control page 3 times | Gisele |
-| Build the pitch slides: problem → solution → live demo → impact → next steps | Gisele |
-| Record a 2-minute backup demo video in case the live demo fails | Gisele |
+| Copy the backup video to 2 laptops and a USB stick | Gisele |
 | Final run-through together, then submit | All |
 
 ---
