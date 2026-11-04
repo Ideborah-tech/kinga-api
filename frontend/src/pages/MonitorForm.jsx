@@ -137,7 +137,7 @@ export default function MonitorForm() {
           </p>
           {grouped.map(({ provider, items }) => items.length > 0 && (
             <div key={provider.code} className="template-group">
-              <ProviderTag code={provider.code} name={provider.name} color={provider.color} />
+              <ProviderTag code={provider.code} name={provider.name} />
               <div className="template-list">
                 {items.map((t) => (
                   <button type="button" key={t.id} className={`template-option ${selected?.id === t.id ? 'selected' : ''}`} onClick={() => pick(t)}>

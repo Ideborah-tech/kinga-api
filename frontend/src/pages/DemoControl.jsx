@@ -79,7 +79,7 @@ export default function DemoControl() {
           {data.providers.map(({ info, health }) => (
             <div key={info.code} className="demo-row">
               <div className="demo-row-head">
-                <ProviderTag code={info.code} name={info.name} color={info.color} />
+                <ProviderTag code={info.code} name={info.name} />
                 <ProviderStatus status={health.status} />
               </div>
               <div className="segmented wrap">
@@ -109,7 +109,7 @@ export default function DemoControl() {
             const broken = isKeyBroken(code);
             return (
               <div key={code} className="demo-row">
-                <ProviderTag code={code} name={p?.name} color={p?.color} />
+                <ProviderTag code={code} name={p?.name} />
                 <button
                   className={`btn btn-sm ${broken ? 'btn-primary' : 'btn-danger'}`}
                   disabled={busy}

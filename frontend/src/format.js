@@ -38,8 +38,8 @@ export const FAILURE_LABELS = {
 };
 
 export const PROVIDER_STATUS_LABELS = {
-  OPERATIONAL: 'Operational',
-  DEGRADED: 'Degraded',
-  OUTAGE: 'Outage',
+  OPERATIONAL: 'Working',
+  DEGRADED: 'Some issues',
+  OUTAGE: 'Down',
   UNKNOWN: 'No data',
 };

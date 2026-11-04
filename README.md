@@ -52,10 +52,19 @@ npm run dev
 
 If the backend runs on another URL, create `frontend/.env.local` containing `VITE_API_URL=http://host:port`.
 
+### 3. Sign in
+
+Every page needs an account. On the sign-in page you can:
+
+- **Create account**: name, email and a password of at least 8 characters.
+- **Explore the demo account**: one click, no password. It signs in as the seeded *Demo Developer*, who owns the demo monitors.
+
+The demo account's email and password are in `DemoDataSeeder.java` (`DEMO_EMAIL`, `DEMO_PASSWORD`). Passwords are stored as BCrypt hashes. Accounts live in the in-memory database, so they reset when the backend restarts.
+
 ## Demo script (2 minutes)
 
-1. **Dashboard:** all of “you”'s payment APIs are green, with 24 h of uptime and response-time history.
-2. **“It's them”:** on **Demo control**, set M-Pesa to *503 error*. Within seconds, every developer's M-Pesa monitors fail, an incident opens and the dashboard shows the purple **“It's them, not you”** banner. Open the failure report: expected vs. actual, the response body, what to check next, and how many other developers are affected.
+1. **Sign in:** click *Explore the demo account*. The overview shows the demo developer's payment APIs, all working, with 24 h of history.
+2. **“It's them”:** on **Demo control**, set M-Pesa to *503 error*. Within seconds, every developer's M-Pesa monitors fail, an incident opens and a red notice appears under the header and the overview shows the dark **“It's them, not you”** card. Open the failure report: expected vs. actual, the response body, what to check next, and how many other developers are affected.
 3. **“It's you”:** click *Reset everything*, then *Break my key* for MTN MoMo. Only your monitor fails, and the report says *“Probably your setup”* and points at your credentials.
 4. **Silent breakage:** set Paystack to *Schema change*. It still returns HTTP 200, but KingaAPI lists exactly which JSON fields disappeared.
 5. **Templates:** show the shared setups and add a monitor in one click.
@@ -64,6 +73,10 @@ If the backend runs on another URL, create `frontend/.env.local` containing `VIT
 
 | Method | Path | Purpose |
 |---|---|---|
+| POST | `/api/auth/register`, `/api/auth/login` | Create an account / sign in; returns `{ token, user }` |
+| POST | `/api/auth/demo` | Sign in to the demo account |
+| GET | `/api/auth/me` | The signed-in user (`Authorization: Bearer <token>`) |
+| POST | `/api/auth/logout` | Sign out (deletes the token) |
 | GET | `/api/dashboard?owner=you` | Counts, uptime, incidents affecting this developer |
 | GET/POST | `/api/monitors` | List (`?owner=`) / create monitors |
 | GET/PUT/DELETE | `/api/monitors/{id}` | One monitor with 24 h stats |

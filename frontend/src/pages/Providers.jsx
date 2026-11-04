@@ -30,7 +30,7 @@ export default function Providers() {
         {data.providers.map(({ info, health }) => (
           <article key={info.code} className={`card provider-detail status-${health.status.toLowerCase()}`}>
             <div className="row between">
-              <ProviderTag code={info.code} name={info.name} color={info.color} />
+              <ProviderTag code={info.code} name={info.name} />
               <ProviderStatus status={health.status} />
             </div>
             <div className="small muted">{info.company} · {info.category}</div>

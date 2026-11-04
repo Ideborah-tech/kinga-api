@@ -17,7 +17,8 @@
 | Built the Dependency Failure Report | Verdict, expected vs. actual, response body, what to check next |
 | Built community detection, mock providers, shared setups and demo data | Handed to Gisele to own and present |
 | Built the React frontend | Handed to Sifa to own and present |
-| Designed the “Aurora” look and the new layout | Glass panels, sunset gradient, bento dashboard, phone dock |
+| Designed the look and layout | IBM Plex Sans + Mono, jacaranda violet and marigold palette, K-shield logo, top navigation |
+| Built accounts | Sign in / create account, demo account, BCrypt password hashes, sign-in tokens |
 | Tested the demo end to end | “It's them”, “it's you” and schema-change stories; light, dark and phone |
 | Wrote the docs and pushed everything | README, TEAM.md and specs, all on `main` |
 
@@ -62,8 +63,11 @@ backend/pom.xml
 backend/src/main/resources/application.properties
 backend/src/main/java/com/kinga/api/KingaApiApplication.java
 backend/src/main/java/com/kinga/api/config/WebConfig.java          CORS, HTTP client, check thread pool
-backend/src/main/java/com/kinga/api/model/                         Monitor, CheckResult, MonitorStatus, FailureType, ProviderIncident, MonitorTemplate
-backend/src/main/java/com/kinga/api/repository/                    the 4 database repositories
+backend/src/main/java/com/kinga/api/config/ValidationErrorHandler.java  form errors without echoing passwords
+backend/src/main/java/com/kinga/api/model/                         Monitor, CheckResult, MonitorStatus, FailureType, ProviderIncident, MonitorTemplate, AppUser, AuthSession
+backend/src/main/java/com/kinga/api/repository/                    the 6 database repositories
+backend/src/main/java/com/kinga/api/service/AuthService.java        accounts, BCrypt passwords, sign-in tokens
+backend/src/main/java/com/kinga/api/controller/AuthController.java  /api/auth/register, login, demo, me, logout
 backend/src/main/java/com/kinga/api/service/CheckerService.java     sends the request, classifies the result
 backend/src/main/java/com/kinga/api/service/MonitoringService.java  every-minute scheduler
 backend/src/main/java/com/kinga/api/service/MonitorService.java     create / edit / list / share monitors

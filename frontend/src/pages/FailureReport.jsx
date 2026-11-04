@@ -6,10 +6,10 @@ import { FAILURE_LABELS, formatDuration, formatTime } from '../format.js';
 import { ErrorBox, Loading, ProviderStatus } from '../components/Status.jsx';
 
 const VERDICT_STYLE = {
-  THEM: { className: 'verdict-them', icon: '⚡', label: 'Provider problem' },
-  YOU: { className: 'verdict-you', icon: '🔧', label: 'Your setup' },
-  UNCLEAR: { className: 'verdict-unclear', icon: '?', label: 'Still investigating' },
-  NONE: { className: 'verdict-ok', icon: '✓', label: 'Healthy' },
+  THEM: { className: 'verdict-them', label: 'Provider problem' },
+  YOU: { className: 'verdict-you', label: 'Your setup' },
+  UNCLEAR: { className: 'verdict-unclear', label: 'Still investigating' },
+  NONE: { className: 'verdict-ok', label: 'Healthy' },
 };
 
 function prettyJson(text) {
@@ -78,12 +78,9 @@ export default function FailureReport() {
       </section>
 
       <section className={`verdict ${verdict.className}`}>
-        <div className="verdict-icon">{verdict.icon}</div>
-        <div>
-          <div className="verdict-label">{verdict.label}</div>
-          <div className="verdict-headline">{r.verdictHeadline}</div>
-          <p>{r.verdictDetail}</p>
-        </div>
+        <div className="verdict-label">Verdict · {verdict.label}</div>
+        <div className="verdict-headline">{r.verdictHeadline}</div>
+        <p>{r.verdictDetail}</p>
       </section>
 
       <div className="report-layout">
@@ -111,28 +108,29 @@ export default function FailureReport() {
                 </div>
               </section>
 
-              <div className="grid-2">
-                <section className="card compare compare-expected">
-                  <h2>Expected</h2>
+              <section className="card diff">
+                <div className="diff-col">
+                  <div className="diff-title diff-title-expected">Expected</div>
+                  <div className="diff-big">HTTP {r.expected.status}</div>
                   <dl className="details">
                     <dt>Request</dt><dd className="mono small">{r.expected.method} {r.expected.url}</dd>
-                    <dt>Status</dt><dd><b>HTTP {r.expected.status}</b></dd>
                     <dt>Fields</dt>
                     <dd>{r.expected.fields.length ? r.expected.fields.map((f) => <code key={f} className="chip">{f}</code>) : 'any body'}</dd>
                     <dt>Within</dt><dd>{r.expected.timeoutMs} ms</dd>
                   </dl>
-                </section>
-                <section className="card compare compare-actual">
-                  <h2>What came back</h2>
+                </div>
+                <div className="diff-arrow" aria-hidden="true">→</div>
+                <div className="diff-col">
+                  <div className="diff-title diff-title-actual">Got</div>
+                  <div className="diff-big text-down">{r.actual.status ? `HTTP ${r.actual.status}` : 'No response'}</div>
                   <dl className="details">
                     <dt>Checked</dt><dd>{formatTime(r.actual.checkedAt)}</dd>
-                    <dt>Status</dt><dd><b className="text-down">{r.actual.status ? `HTTP ${r.actual.status}` : 'No response'}</b></dd>
                     <dt>Missing</dt>
                     <dd>{r.actual.missingFields.length ? r.actual.missingFields.map((f) => <code key={f} className="chip chip-bad">{f}</code>) : '—'}</dd>
                     <dt>Took</dt><dd>{r.actual.responseTimeMs} ms</dd>
                   </dl>
-                </section>
-              </div>
+                </div>
+              </section>
 
               <section className="card">
                 <h2>What to check next</h2>

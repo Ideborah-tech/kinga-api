@@ -14,7 +14,8 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Backend: every-minute checks, failure classification, Dependency Failure Report | Deborah |
 | Backend: community outage detection, mock providers, shared setups, demo data | Deborah |
 | Frontend: dashboard, monitor page, failure report, add/edit monitor, shared setups, providers, demo control | Deborah |
-| Design: “Aurora” look (glass panels, sunset gradient), new logo, top bar + phone dock, bento dashboard | Deborah |
+| Design: professional developer-tool look (IBM Plex Sans + Mono, jacaranda violet and marigold palette, clear status colours), new K-shield logo, top navigation, KPI strip, new logo | Deborah |
+| Accounts: one-screen sign in / create account page, demo account, BCrypt passwords, sign-in tokens | Deborah |
 | Test both demo stories (“it's them” and “it's you”) and the schema-change story end to end | Deborah |
 | Test light mode, dark mode and phone width | Deborah |
 | Write README, TEAM.md and the specs for Sifa and Gisele; push everything to GitHub | Deborah |
@@ -44,9 +45,11 @@ Explains: *how KingaAPI checks APIs and diagnoses failures.*
 backend/pom.xml
 backend/src/main/resources/application.properties
 backend/src/main/java/com/kinga/api/KingaApiApplication.java
-backend/src/main/java/com/kinga/api/config/WebConfig.java
-backend/src/main/java/com/kinga/api/model/            (Monitor, CheckResult, MonitorStatus, FailureType, ProviderIncident, MonitorTemplate)
-backend/src/main/java/com/kinga/api/repository/       (all 4 repositories)
+backend/src/main/java/com/kinga/api/config/            (WebConfig, ValidationErrorHandler)
+backend/src/main/java/com/kinga/api/model/            (Monitor, CheckResult, MonitorStatus, FailureType, ProviderIncident, MonitorTemplate, AppUser, AuthSession)
+backend/src/main/java/com/kinga/api/repository/       (all 6 repositories)
+backend/src/main/java/com/kinga/api/service/AuthService.java         accounts, BCrypt passwords, sign-in tokens
+backend/src/main/java/com/kinga/api/controller/AuthController.java   /api/auth/register, login, demo, me, logout
 backend/src/main/java/com/kinga/api/service/CheckerService.java      sends the request, classifies the result
 backend/src/main/java/com/kinga/api/service/MonitoringService.java   every-minute scheduler
 backend/src/main/java/com/kinga/api/service/MonitorService.java      create / edit / list monitors
@@ -65,7 +68,8 @@ Explains: *what the developer sees and how the report reads.*
 frontend/package.json, vite.config.js, index.html, public/shield.svg
 frontend/src/main.jsx, App.jsx, api.js, format.js, OwnerContext.jsx, styles.css
 frontend/src/hooks/usePolling.js
-frontend/src/components/   (Layout, Status, StatCard, Sparkline, ResponseChart, IncidentBanner, HealthRing)
+frontend/src/components/   (Layout, Status, StatCard, Sparkline, ResponseChart, IncidentBanner)
+frontend/src/pages/AuthPage.jsx              sign in / create account
 frontend/src/pages/Dashboard.jsx
 frontend/src/pages/MonitorDetail.jsx
 frontend/src/pages/FailureReport.jsx

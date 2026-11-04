@@ -12,6 +12,7 @@ import com.kinga.api.repository.CheckResultRepository;
 import com.kinga.api.repository.MonitorRepository;
 import com.kinga.api.repository.MonitorTemplateRepository;
 import com.kinga.api.repository.ProviderIncidentRepository;
+import com.kinga.api.service.AuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -36,6 +37,11 @@ public class DemoDataSeeder implements CommandLineRunner {
     /** The developer using the dashboard in the demo. */
     public static final String DEMO_OWNER = "you";
 
+    /** Seeded demo account (handle DEMO_OWNER). The "Explore the demo" button signs in as it. */
+    public static final String DEMO_EMAIL = "demo@kingaapi.dev";
+    public static final String DEMO_NAME = "Demo Developer";
+    public static final String DEMO_PASSWORD = "kinga-demo-2026";
+
     /** developer -> list of "PROVIDER_CODE:endpointIndex" */
     private static final Map<String, List<String>> COMMUNITY = Map.of(
             DEMO_OWNER, List.of("MPESA:0", "MPESA:1", "MTN_MOMO:0", "FLUTTERWAVE:0", "PAYSTACK:1"),
@@ -59,20 +65,23 @@ public class DemoDataSeeder implements CommandLineRunner {
     private final CheckResultRepository checks;
     private final MonitorTemplateRepository templates;
     private final ProviderIncidentRepository incidents;
+    private final AuthService auth;
     private final Random random = new Random(42);
 
     public DemoDataSeeder(ProviderCatalog catalog, MonitorRepository monitors, CheckResultRepository checks,
-                          MonitorTemplateRepository templates, ProviderIncidentRepository incidents) {
+                          MonitorTemplateRepository templates, ProviderIncidentRepository incidents, AuthService auth) {
         this.catalog = catalog;
         this.monitors = monitors;
         this.checks = checks;
         this.templates = templates;
         this.incidents = incidents;
+        this.auth = auth;
     }
 
     @Override
     public void run(String... args) {
         if (monitors.count() > 0) return;
+        auth.createUser(DEMO_NAME, DEMO_EMAIL, DEMO_PASSWORD, DEMO_OWNER);
         seedTemplates();
         List<Monitor> created = seedMonitors();
         seedHistory(created);

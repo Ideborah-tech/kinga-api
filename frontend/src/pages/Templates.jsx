@@ -43,7 +43,7 @@ export default function Templates() {
         {data.templates.map((t) => (
           <article key={t.id} className="card template-card">
             <div className="row between">
-              <ProviderTag code={t.provider} name={info[t.provider]?.name} color={info[t.provider]?.color} />
+              <ProviderTag code={t.provider} name={info[t.provider]?.name} />
               <span className="small muted">used {t.uses}×</span>
             </div>
             <h3>{t.name}</h3>

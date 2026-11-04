@@ -20,14 +20,14 @@ cd frontend
 npm install
 npm run dev
 ```
-Open http://localhost:5173. The backend must be running first, or every page shows "Something went wrong".
+Open http://localhost:5173 and click **Explore the demo account** (or create your own account). The backend must be running first, or every page shows "Something went wrong".
 
 ## 3. How the frontend is built
 
 ```
-main.jsx            starts React, wraps the app in the router and OwnerProvider
-└─ App.jsx          the list of pages (routes)
-   └─ Layout.jsx    floating top bar + live provider strip + phone dock, around every page
+main.jsx            starts React, wraps the app in the router and OwnerProvider (sign-in state)
+└─ App.jsx          the list of pages; /login and /signup are open, every other page needs sign-in
+   └─ Layout.jsx    top navigation, network chip, account menu, outage notice, phone tab bar
       └─ pages/*    one file per screen
 ```
 
@@ -35,22 +35,23 @@ main.jsx            starts React, wraps the app in the router and OwnerProvider
 |---|---|---|
 | **All backend calls in one place** | `api.js` | Pages never call `fetch` directly. They call `api.dashboard(owner)`, `api.report(id)` and so on. If the backend URL changes, only this file changes. |
 | **Auto-refresh** | `hooks/usePolling.js` | `usePolling(loadFn, deps, ms)` loads data, then reloads it every `ms` milliseconds. It returns `{ data, error, loading, reload }`. The dashboard uses 5000 ms. |
-| **Current developer** | `OwnerContext.jsx` | There is no login. The developer is picked in the top-right badge and remembered in the browser. The default is `you`. |
+| **Signed-in developer** | `OwnerContext.jsx` | Holds the session `{ token, user }`, remembered in the browser. `useAuth()` gives `user`, `login`, `register`, `demoLogin`, `logout`; `useOwner()` gives the user's handle, which owns their monitors. `api.js` sends the token with every request. |
 | **Formatting helpers** | `format.js` | `timeAgo`, `formatTime`, `formatDuration`, and readable labels for failure types ("Server error", "Rate limited"…). |
-| **Design** | `styles.css` | The "Aurora" design: frosted-glass panels, a sunset gradient (emerald → amber → coral), light and dark mode, and phone layout. All colours are CSS variables at the top of the file. |
+| **Design** | `styles.css` | Professional developer-tool look: IBM Plex Sans for text and headings, IBM Plex Mono for numbers and codes. Signature palette drawn from African colour: **Jacaranda** `#6C3CE9` (buttons, active tab, logo, the "It's them, not you" card, the sign-in panel), **Marigold** `#FFB224` for highlights, **Shea** cream `#FAF7F2` background and **Aubergine** `#1E1633` text. Status colours: green = working (only text and dots, never a background), red = failing, burnt orange = slow. No gradients. Light and dark mode, phone layout. All colours are CSS variables at the top of the file. |
 
 ## 4. Your files
 
 | File | What it does |
 |---|---|
-| `src/components/Layout.jsx` | Floating top bar (logo, links, developer badge), live provider strip ("LIVE · M-Pesa 230ms…"), and the bottom dock on phones |
-| `src/components/Status.jsx` | Small reusable pieces: status pills (Up / Down / Slow), provider tags, loading and error boxes |
-| `src/components/HealthRing.jsx` | The circular uptime gauge on the dashboard |
-| `src/components/IncidentBanner.jsx` | The purple **"It's them, not you"** banner |
+| `src/pages/AuthPage.jsx` | **Sign in / create account**, fits one screen with no scrolling: on the left, a jacaranda panel showing what KingaAPI does (a live provider-status console with an "It's them, not you" verdict); on the right, the form plus *Explore the demo account*. On phones only the form shows. |
+| `public/shield.svg` | The logo: a white shield (kinga = protection) holding a violet "K", with a marigold signal dot. Used with the two-tone **Kinga**API wordmark. |
+| `src/components/Layout.jsx` | Top navigation, the network chip ("All providers working"), the account menu with sign out, a red notice while a provider is down, and the tab bar on phones |
+| `src/components/Status.jsx` | Small reusable pieces: status pills in plain words (Working / Failing / Slow / Checking), round status icons, provider initials badges, loading and error boxes |
+| `src/components/IncidentBanner.jsx` | The charcoal **"It's them, not you"** card |
 | `src/components/Sparkline.jsx` | Tiny response-time line in each monitor card |
 | `src/components/ResponseChart.jsx` | Response-time chart on the monitor page (Recharts). Failed checks are red dots. |
 | `src/components/StatCard.jsx` | Number tiles on the monitor page |
-| `src/pages/Dashboard.jsx` | Home: welcome block with uptime ring, Up/Down/Slow tiles, monitor cards, Community pulse, Recent incidents |
+| `src/pages/Dashboard.jsx` | Overview: greeting with the user's name, one-sentence summary, KPI strip (uptime, working, failing, slow, checks), your endpoints, and a side column with the provider network and incidents |
 | `src/pages/MonitorDetail.jsx` | One monitor: chart, recent checks, what KingaAPI expects, plus the Check now, Edit, Share and Delete buttons |
 | `src/pages/FailureReport.jsx` | The **Dependency Failure Report** (see section 5) |
 | `src/pages/MonitorForm.jsx` | Add or edit a monitor: pick a shared setup, choose Demo mock or Live sandbox, fill the form |
@@ -62,7 +63,7 @@ Gisele owns `Templates.jsx`, `Providers.jsx` and `DemoControl.jsx`. They use you
 This is the screen judges will remember. It reads from top to bottom like a story:
 
 1. **Verdict.** A big coloured card with one of four answers:
-   - 💜 **"It's them, not you."** (`THEM`): many developers on this provider are failing at once.
+   - ⬛ **"It's them, not you."** (`THEM`): many developers on this provider are failing at once.
    - ❤️ **"Probably your setup."** (`YOU`): only you are failing; everyone else on this provider is fine.
    - 🧡 **"Still investigating"** (`UNCLEAR`): a few others fail too, but not enough to be sure.
    - 💚 **Healthy** (`NONE`): this monitor has never failed.
@@ -81,7 +82,7 @@ The backend builds all the content (`GET /api/monitors/{id}/report`). Your job i
 |---|---|---|
 | 1 | Pull the repo and run backend + frontend | The dashboard shows 5 green monitors for `you` |
 | 2 | Click through **every page**: Dashboard, a monitor, its report, Add monitor, Edit, Shared setups, Providers, Demo | No page shows an error; every button does something |
-| 3 | Check **phone width**: in Chrome, press F12, then the phone icon, then pick "iPhone 12" | Nothing spills off the side; the bottom dock works |
+| 3 | Check **phone width**: in Chrome, press F12, then the phone icon, then pick "iPhone 12" | Nothing spills off the side; the bottom bar works |
 | 4 | Check **light and dark mode**: in Chrome DevTools, open Rendering, then "Emulate prefers-color-scheme" | Text is readable in both |
 | 5 | Run the outage: on Demo, set M-Pesa to **503 error**, then go to the Dashboard | Purple banner appears within ~5 s; the M-Pesa cards turn red with a "Report →" tag |
 | 6 | Open the report from the banner | Verdict says "It's them, not you." |
@@ -99,7 +100,7 @@ The backend builds all the content (`GET /api/monitors/{id}/report`). Your job i
 | Why React? | Fast to build interactive dashboards, a huge ecosystem (Recharts for charts, React Router for pages), and the team knows it. |
 | How does it update live? | The `usePolling` hook reloads data every 5 seconds. A next step would be WebSockets for instant push. |
 | Is there a login? | Not in this prototype. The developer is chosen from a list. Real accounts are an obvious next step. |
-| Does it work on mobile? | Yes. The layout switches to one column with an app-style bottom dock. |
+| Does it work on mobile? | Yes. The layout switches to one column and the icon rail becomes a bottom bar. |
 | Why "Copy report"? | Developers often have to message the provider's support or their team. The copied text has everything they need. |
 
 ## 9. Git rules

@@ -1,10 +1,19 @@
 // All calls to the Spring Boot backend live here.
 export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8085';
 
+// Sign-in token, set by AuthContext and sent with every request.
+let authToken = null;
+export function setAuthToken(token) {
+  authToken = token;
+}
+
 async function request(path, { method = 'GET', body } = {}) {
+  const headers = {};
+  if (body !== undefined) headers['Content-Type'] = 'application/json';
+  if (authToken) headers.Authorization = `Bearer ${authToken}`;
   const res = await fetch(API_URL + path, {
     method,
-    headers: body !== undefined ? { 'Content-Type': 'application/json' } : undefined,
+    headers,
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
   if (res.status === 204) return null;
@@ -20,6 +29,12 @@ async function request(path, { method = 'GET', body } = {}) {
 const q = encodeURIComponent;
 
 export const api = {
+  register: (name, email, password) => request('/api/auth/register', { method: 'POST', body: { name, email, password } }),
+  login: (email, password) => request('/api/auth/login', { method: 'POST', body: { email, password } }),
+  demoLogin: () => request('/api/auth/demo', { method: 'POST' }),
+  me: () => request('/api/auth/me'),
+  logout: () => request('/api/auth/logout', { method: 'POST' }),
+
   dashboard: (owner) => request(`/api/dashboard?owner=${q(owner)}`),
 
   monitors: (owner) => request(owner ? `/api/monitors?owner=${q(owner)}` : '/api/monitors'),
