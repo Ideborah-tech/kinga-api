@@ -123,9 +123,27 @@ export default function Layout({ children }) {
       <main className="container">{children}</main>
 
       <footer className="footer">
-        <span className="wordmark">Kinga<b>API</b></span>
-        <span><i>Kinga</i> means “protection” in Swahili</span>
-        <span>Built by Deborah, Sifa &amp; Gisele</span>
+        <svg className="footer-wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true">
+          <path className="fill" d="M0 56 L0 30 C240 -6 480 -6 720 24 S1200 54 1440 18 L1440 56 Z" />
+          <path className="line" d="M0 22 C240 -14 480 -14 720 16 S1200 46 1440 10" vectorEffect="non-scaling-stroke" />
+        </svg>
+        <div className="footer-inner">
+          <div className="footer-top">
+            <Link to="/" className="footer-brand">
+              <img src="/shield.svg" alt="" width="34" height="34" />
+              <span className="wordmark">Kinga<b>API</b></span>
+            </Link>
+            <p className="footer-tagline">It’s them, <span>not you.</span></p>
+            <nav className="footer-links">
+              {NAV.map((item) => <Link key={item.to} to={item.to}>{item.label}</Link>)}
+            </nav>
+          </div>
+          <div className="footer-bottom">
+            <span>© {new Date().getFullYear()} KingaAPI</span>
+            <span><i>Kinga</i> means “protection” in Swahili</span>
+            <span>Built by Deborah, Sifa &amp; Gisele</span>
+          </div>
+        </div>
       </footer>
 
       <nav className="tabbar">
