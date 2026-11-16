@@ -1,5 +1,6 @@
 // All calls to the Spring Boot backend live here.
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8085';
+// In a production build the backend serves the frontend itself, so calls stay on the same origin.
+export const API_URL = import.meta.env.VITE_API_URL ?? (import.meta.env.PROD ? '' : 'http://localhost:8085');
 
 // Sign-in token, set by AuthContext and sent with every request.
 let authToken = null;
