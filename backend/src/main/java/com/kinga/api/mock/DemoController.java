@@ -51,6 +51,15 @@ public class DemoController {
         return state.all();
     }
 
+    /** Back to healthy for everyone: every provider and every developer's key. Used by the auto-reset. */
+    public void resetEverything() {
+        state.reset();
+        for (Monitor m : monitors.findAll()) {
+            if (m.headers != null && m.headers.contains(INVALID_KEY)) setInvalidKey(m, false);
+        }
+        CompletableFuture.runAsync(() -> state.all().keySet().forEach(monitoring::checkProviderNow));
+    }
+
     /** Breaks (or fixes) the Authorization header on one developer's monitors for a provider. */
     @PostMapping("/my-key")
     public List<Long> breakMyKey(@RequestParam String owner, @RequestParam String provider,
@@ -59,6 +68,7 @@ public class DemoController {
                 .filter(m -> m.provider.equals(provider))
                 .toList();
         mine.forEach(m -> setInvalidKey(m, broken));
+        state.touch();
         CompletableFuture.runAsync(() -> mine.forEach(m -> monitoring.checkNow(m.id)));
         return mine.stream().map(m -> m.id).toList();
     }

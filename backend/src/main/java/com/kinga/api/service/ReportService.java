@@ -7,12 +7,15 @@ import com.kinga.api.model.CheckResult;
 import com.kinga.api.model.FailureType;
 import com.kinga.api.model.Monitor;
 import com.kinga.api.model.MonitorStatus;
+import com.kinga.api.model.ProviderIncident;
 import com.kinga.api.repository.CheckResultRepository;
 import com.kinga.api.repository.MonitorRepository;
+import com.kinga.api.repository.ProviderIncidentRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +28,21 @@ public class ReportService {
     private final CheckResultRepository checks;
     private final CommunityService community;
     private final ProviderCatalog catalog;
+    private final ProviderIncidentRepository incidents;
 
     @Value("${kinga.community.min-monitors}")
     private int minMonitors;
 
+    @Value("${kinga.community.window-minutes}")
+    private int windowMinutes;
+
     public ReportService(MonitorRepository monitors, CheckResultRepository checks, CommunityService community,
-                         ProviderCatalog catalog) {
+                         ProviderCatalog catalog, ProviderIncidentRepository incidents) {
         this.monitors = monitors;
         this.checks = checks;
         this.community = community;
         this.catalog = catalog;
+        this.incidents = incidents;
     }
 
     public FailureReport build(Long monitorId) {
@@ -69,7 +77,9 @@ public class ReportService {
                 CheckerService.splitFields(failed.missingFields), failed.errorMessage, failed.responseSnippet,
                 failed.checkedAt);
 
-        Verdict verdict = verdict(monitor, failed.failureType, health, providerName, statusPageUrl);
+        Verdict verdict = resolved
+                ? pastVerdict(monitor, failed, providerName)
+                : verdict(monitor, failed.failureType, health, providerName, statusPageUrl);
 
         return new FailureReport(monitor.id, monitor.name, monitor.provider, providerName, monitor.owner,
                 Instant.now(), resolved, true, failingSince, monitor.consecutiveFailures, failed.failureType,
@@ -80,6 +90,32 @@ public class ReportService {
     }
 
     private record Verdict(String code, String headline, String detail) {
+    }
+
+    /**
+     * The monitor has recovered, so today's provider health says nothing about that failure. Judge it by
+     * whether a provider incident was open when it happened.
+     */
+    private Verdict pastVerdict(Monitor monitor, CheckResult failed, String providerName) {
+        ProviderIncident during = incidentDuring(monitor.provider, failed.checkedAt);
+        if (during != null) {
+            return new Verdict("THEM", "It was them, not you.",
+                    "This failure happened during a " + providerName + " outage: " + during.summary
+                            + " " + providerName + " has recovered and this endpoint is working again.");
+        }
+        return new Verdict("NONE", "Recovered. It was not a provider outage.",
+                "This endpoint is working again. KingaAPI saw no " + providerName
+                        + " outage at the time, so it was a one-off failure on this endpoint. If it happens again, use the checks below.");
+    }
+
+    /** A provider incident open at that moment, allowing for the detection window before it opened. */
+    private ProviderIncident incidentDuring(String provider, Instant at) {
+        Duration window = Duration.ofMinutes(windowMinutes);
+        return incidents.findTop20ByProviderOrderByStartedAtDesc(provider).stream()
+                .filter(i -> !at.isBefore(i.startedAt.minus(window)))
+                .filter(i -> i.resolvedAt == null || !at.isAfter(i.resolvedAt))
+                .findFirst()
+                .orElse(null);
     }
 
     private Verdict verdict(Monitor monitor, FailureType type, ProviderHealth health, String providerName,
