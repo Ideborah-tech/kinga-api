@@ -10,6 +10,7 @@ import com.kinga.api.model.MonitorStatus;
 import com.kinga.api.model.ProviderIncident;
 import com.kinga.api.repository.CheckResultRepository;
 import com.kinga.api.repository.MonitorRepository;
+import com.kinga.api.repository.ProviderIncidentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -33,6 +34,7 @@ class ReportServiceTest {
     private final CheckResultRepository checks = mock(CheckResultRepository.class);
     private final CommunityService community = mock(CommunityService.class);
     private final ProviderCatalog catalog = mock(ProviderCatalog.class);
+    private final ProviderIncidentRepository incidents = mock(ProviderIncidentRepository.class);
 
     private ReportService reports;
     private Monitor monitor;
@@ -40,8 +42,9 @@ class ReportServiceTest {
 
     @BeforeEach
     void setUp() {
-        reports = new ReportService(monitors, checks, community, catalog);
+        reports = new ReportService(monitors, checks, community, catalog, incidents);
         ReflectionTestUtils.setField(reports, "minMonitors", 3);
+        ReflectionTestUtils.setField(reports, "windowMinutes", 5);
 
         monitor = new Monitor();
         monitor.id = 7L;
@@ -152,6 +155,43 @@ class ReportServiceTest {
         assertThat(r.failureType()).isEqualTo(FailureType.NONE);
         assertThat(r.actual()).isNull();
         assertThat(r.suggestions()).isEmpty();
+    }
+
+    @Test
+    void recoveredFailureDuringAnOutageStillSaysItWasThem() {
+        // M-Pesa outage is over: the provider is healthy now, but the last failure happened during it.
+        monitor.lastStatus = MonitorStatus.UP;
+        givenFailingAfterSuccess(FailureType.SERVER_ERROR);
+        givenHealth(5, 0, 4, null);
+        ProviderIncident past = new ProviderIncident();
+        past.summary = "6 of 6 monitors from 4 developers are failing on M-Pesa (server errors).";
+        past.startedAt = now.minusSeconds(150);
+        past.resolvedAt = now.minusSeconds(30);
+        past.active = false;
+        when(incidents.findTop20ByProviderOrderByStartedAtDesc("MPESA")).thenReturn(List.of(past));
+
+        FailureReport r = reports.build(7L);
+
+        assertThat(r.resolved()).isTrue();
+        assertThat(r.verdict()).isEqualTo("THEM");
+        assertThat(r.verdictHeadline()).isEqualTo("It was them, not you.");
+        assertThat(r.verdictDetail()).contains(past.summary);
+    }
+
+    @Test
+    void recoveredFailureWithoutAnOutageIsNotBlamedOnYourSetup() {
+        monitor.lastStatus = MonitorStatus.UP;
+        givenFailingAfterSuccess(FailureType.TIMEOUT);
+        givenHealth(5, 0, 4, null);
+        ProviderIncident older = new ProviderIncident();
+        older.startedAt = now.minusSeconds(3 * 3600);
+        older.resolvedAt = now.minusSeconds(2 * 3600);
+        when(incidents.findTop20ByProviderOrderByStartedAtDesc("MPESA")).thenReturn(List.of(older));
+
+        FailureReport r = reports.build(7L);
+
+        assertThat(r.verdict()).isEqualTo("NONE");
+        assertThat(r.verdictHeadline()).doesNotContain("your setup");
     }
 
     @Test

@@ -91,11 +91,21 @@ docker build -t kinga-api .
 docker run -p 8085:8085 kinga-api      # then open http://localhost:8085
 ```
 
-Any host that builds a Dockerfile from this GitHub repository works (for example Render, Railway, Fly.io or Koyeb). The host sets `PORT`; the app reads it. It needs about 256 MB of memory (512 MB is comfortable). Data is in memory, so every restart brings back the fresh demo data. Judges sign in with **Try the demo**.
+Any host that builds a Dockerfile from this GitHub repository works (for example Render, Railway, Fly.io or Koyeb). The host sets `PORT`; the app reads it. It needs about 256 MB of memory (512 MB is comfortable). Data is in memory, so every restart brings back the fresh demo data. Judges sign in with **Try the demo**. If a visitor leaves a provider broken on the Demo page, everything goes back to healthy after 10 minutes without changes (`kinga.demo.auto-reset-minutes`).
+
+### On a Systalink Cloud Server
+
+On a fresh Ubuntu or Debian server, as root:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Ideborah-tech/kinga-api/main/deploy/systalink-server.sh | bash
+```
+
+It installs Docker, builds the app and runs it on port 80, then prints the public link (`http://<server IP>`). Add `DOMAIN=your.domain` before `bash` for HTTPS on your own domain (point its DNS A record at the server first). Run the same command again to deploy the latest `main`.
 
 ## Pitch material
 
-**Jury submission package (current design):** [`docs/submission/`](docs/submission/): slides as [PPTX](docs/submission/KingaAPI-pitch.pptx) and [PDF](docs/submission/KingaAPI-pitch.pdf), the [demo video](docs/submission/kinga-demo.mp4) (1 min 36 s, captioned) and [5 screenshots](docs/submission/screenshots/). The files below show the earlier design.
+**Jury submission package (current design):** [`docs/submission/`](docs/submission/): slides as [PPTX](docs/submission/KingaAPI-pitch.pptx) and [PDF](docs/submission/KingaAPI-pitch.pdf), the [demo video](docs/submission/kinga-demo.mp4) (1 min 36 s, captioned) and [5 screenshots](docs/submission/screenshots/), and a [narration script](docs/submission/narration-script.md) for recording a voice-over. The files below show the earlier design.
 
 
 - Slides: [`docs/pitch/KingaAPI-pitch.pptx`](docs/pitch/KingaAPI-pitch.pptx) (8 slides, speaker notes included)

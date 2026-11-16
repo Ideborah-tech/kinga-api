@@ -27,6 +27,8 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Checked the README run steps on a fresh clone; clarified the clone step and the second terminal | Gisele |
 | Added Wave (Senegal, Côte d'Ivoire, Mali…) as a 7th provider with demo monitors | Gisele |
 | Deploy-ready build: one Docker container serves the app, API and mock providers on the host's `PORT` | Team |
+| Report verdict fixed for recovered failures: “It was them, not you” after a provider outage, instead of “Probably your setup” | Deborah |
+| Demo goes back to healthy on its own after 10 idle minutes, so every judge starts from green | Team |
 | Jury submission package for the current design in [`docs/submission/`](docs/submission/): slides (PPTX + PDF), 1 min 36 s video, 5 screenshots | Team |
 
 ### 🔄 In progress (everyone, now)
@@ -38,7 +40,8 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Walk through the backend code; be ready to explain the scheduler and the failure classification | Deborah |
 | Rehearse the demo script on the Demo control page 3 times | Gisele |
 | Copy the backup video to 2 laptops and a USB stick | Gisele |
-| Deploy on Systalink (or another host) and note the public link | Deborah |
+| Deploy on a Systalink Cloud Server with `deploy/systalink-server.sh` (see README) and note the public link | Deborah |
+| Record the voice-over from `docs/submission/narration-script.md` (to be merged into the video) | Gisele |
 | Upload `docs/submission/kinga-demo.mp4` to YouTube and copy the link | Gisele |
 | Final run-through together, then submit | All |
 

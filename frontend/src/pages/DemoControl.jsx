@@ -53,6 +53,7 @@ export default function DemoControl() {
           <h1>Demo control</h1>
           <p className="muted">
             Break the built-in mock providers on cue. Monitors are re-checked straight away, so the dashboard updates within seconds.
+            Everything goes back to healthy on its own after 10 minutes without changes.
           </p>
         </div>
         <button className="btn btn-ghost" disabled={busy} onClick={() => act(() => api.resetDemo(owner), 'Everything is healthy again.')}>
