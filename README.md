@@ -82,7 +82,21 @@ The demo account's email and password are in `DemoDataSeeder.java` (`DEMO_EMAIL`
 4. **Silent breakage:** set Paystack to *Schema change*. It still returns HTTP 200, but KingaAPI lists exactly which JSON fields disappeared.
 5. **Templates:** show the shared setups and add a monitor in one click.
 
+## Deploy (one public URL)
+
+The `Dockerfile` builds the React app and bundles it into the Spring Boot jar, so the whole product runs as **one web service on one port**: the pages, the API and the built-in mock providers. No database or API keys are needed.
+
+```bash
+docker build -t kinga-api .
+docker run -p 8085:8085 kinga-api      # then open http://localhost:8085
+```
+
+Any host that builds a Dockerfile from this GitHub repository works (for example Render, Railway, Fly.io or Koyeb). The host sets `PORT`; the app reads it. It needs about 256 MB of memory (512 MB is comfortable). Data is in memory, so every restart brings back the fresh demo data. Judges sign in with **Try the demo**.
+
 ## Pitch material
+
+**Jury submission package (current design):** [`docs/submission/`](docs/submission/): slides as [PPTX](docs/submission/KingaAPI-pitch.pptx) and [PDF](docs/submission/KingaAPI-pitch.pdf), the [demo video](docs/submission/kinga-demo.mp4) (1 min 36 s, captioned) and [5 screenshots](docs/submission/screenshots/). The files below show the earlier design.
+
 
 - Slides: [`docs/pitch/KingaAPI-pitch.pptx`](docs/pitch/KingaAPI-pitch.pptx) (8 slides, speaker notes included)
 - Backup demo video (2 min, captioned): [`docs/demo/kinga-demo-backup.mp4`](docs/demo/kinga-demo-backup.mp4)

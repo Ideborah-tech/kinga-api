@@ -26,6 +26,8 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | 2-minute captioned backup demo video in [`docs/demo/`](docs/demo/) | Gisele |
 | Checked the README run steps on a fresh clone; clarified the clone step and the second terminal | Gisele |
 | Added Wave (Senegal, Côte d'Ivoire, Mali…) as a 7th provider with demo monitors | Gisele |
+| Deploy-ready build: one Docker container serves the app, API and mock providers on the host's `PORT` | Team |
+| Jury submission package for the current design in [`docs/submission/`](docs/submission/): slides (PPTX + PDF), 1 min 36 s video, 5 screenshots | Team |
 
 ### 🔄 In progress (everyone, now)
 - Each member pulls the repo, runs backend + frontend on their own laptop (see README) and reads their files below
@@ -36,6 +38,8 @@ Team: **Deborah** (backend core), **Sifa** (frontend), **Gisele** (community int
 | Walk through the backend code; be ready to explain the scheduler and the failure classification | Deborah |
 | Rehearse the demo script on the Demo control page 3 times | Gisele |
 | Copy the backup video to 2 laptops and a USB stick | Gisele |
+| Deploy on Systalink (or another host) and note the public link | Deborah |
+| Upload `docs/submission/kinga-demo.mp4` to YouTube and copy the link | Gisele |
 | Final run-through together, then submit | All |
 
 ---
